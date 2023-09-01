@@ -29,6 +29,23 @@
 # jobs are running in this shell will all be displayed automatically when
 # appropriate.
 
+# To see all xterm-256color codes:
+# for high in {0..15}; do for low in {0..15}; do code=$((high * 16 + low)); echo -en "\e[48;5;${code}m[$(printf "%03d\n" $code)]\e[0m "; done; echo; done
+READABLE_COLOURS=(0 4 5 6 20 22 25 30 52 88 94 100 124 130 240 245)
+# To check color codes in shell:
+# for code in $READABLE_COLOURS; do echo -e "\e[48;5;${code}mfoo@bar [$(printf "%03d\n" $code)]\e[0m "; done
+
+COLOUR_AMOUNT=${#READABLE_COLOURS[@]}
+
+# we hash username@hostname, then mod it by the colour count
+HOST_STRING=$(whoami)@$(hostnamectl hostname)
+HOST_STRING_HASH=$(( 0x$(echo $HOST_STRING | sha1sum | cut -d ' ' -f 1 | head -c 10) ))
+HOST_COLOUR_INDEX=$(( $HOST_STRING_HASH % $COLOUR_AMOUNT))
+HOST_COLOUR_INDEX=$((HOST_COLOUR_INDEX+1)) # increase by one as zsh arrays start at 1
+
+#HOST_COLOUR=24
+HOST_COLOUR=${READABLE_COLOURS[$HOST_COLOUR_INDEX]}
+
 ### Segment drawing
 # A few utility functions to make it easy and re-usable to draw segmented prompts
 
@@ -89,7 +106,7 @@ prompt_end() {
 # Context: user@hostname (who am I and where am I)
 prompt_context() {
   if [[ "$USERNAME" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
-    prompt_segment black default "%(!.%{%F{yellow}%}.)%n@%m"
+    prompt_segment $HOST_COLOUR default "%(!.%{%F{yellow}%}.)%n@%m"
   fi
 }
 
