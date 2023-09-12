@@ -38,7 +38,7 @@ READABLE_COLOURS=(0 4 5 6 20 22 25 30 52 88 94 100 124 130 240 245)
 COLOUR_AMOUNT=${#READABLE_COLOURS[@]}
 
 # we hash username@hostname, then mod it by the colour count
-HOST_STRING=$(whoami)@$(hostnamectl hostname)
+HOST_STRING=$(whoami)@$(hostname)
 HOST_STRING_HASH=$(( 0x$(echo $HOST_STRING | sha1sum | cut -d ' ' -f 1 | head -c 10) ))
 HOST_COLOUR_INDEX=$(( $HOST_STRING_HASH % $COLOUR_AMOUNT))
 HOST_COLOUR_INDEX=$((HOST_COLOUR_INDEX+1)) # increase by one as zsh arrays start at 1
