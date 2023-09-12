@@ -10,3 +10,7 @@ Clone this repository and add a symbolic link pointing at `agnoster.zsh-theme` t
 ## Credits
 
 Code was copied from [rixx's zsh config](https://github.com/rixx/dotfiles/commit/ca4b3740eec3f63b85fe920ea0a1d9eb3dececd1) and adapted to work with oh-my-zsh.
+
+## Example screenshot
+
+![screenshot with different prompts](prompt-example.png)

@@ -43,7 +43,6 @@ HOST_STRING_HASH=$(( 0x$(echo $HOST_STRING | sha1sum | cut -d ' ' -f 1 | head -c
 HOST_COLOUR_INDEX=$(( $HOST_STRING_HASH % $COLOUR_AMOUNT))
 HOST_COLOUR_INDEX=$((HOST_COLOUR_INDEX+1)) # increase by one as zsh arrays start at 1
 
-#HOST_COLOUR=24
 HOST_COLOUR=${READABLE_COLOURS[$HOST_COLOUR_INDEX]}
 
 ### Segment drawing
